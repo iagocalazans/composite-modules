@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 import chalk from 'chalk';
 import util from 'util';
 
