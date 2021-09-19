@@ -45,10 +45,10 @@ container.add(myModuleThree);
 
 void container.init()
 
-container.on('ready', (modules) => {
+container.events.on('ready', (modules) => {
     // Here we ensure that all of your modules have been loaded. and you can access them.
     container.use('moduleOne').specificFunction();
-    
+
     ...
 })
 

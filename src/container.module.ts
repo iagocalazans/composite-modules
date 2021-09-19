@@ -97,8 +97,11 @@ export class Container extends Module {
 
       void this.beautyLogs.system('[*] Modules load completed. The system loaded and started completely.');
 
+      /**
+       * This on event 'ready' emits Container it selfs.
+       */
       void this._events.emit(
-        'ready', this._children
+        'ready', this
       );
     } catch (err) {
       void this._events.emit('failed');
