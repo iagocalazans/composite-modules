@@ -127,4 +127,11 @@ export class Container extends Module {
   get events (): EventEmitter {
     return this._events;
   }
+
+  /**
+   * Allows access to childrens modules as collection.
+   */
+  get collection (): Module[] {
+    return this._children;
+  }
 }

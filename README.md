@@ -1,7 +1,7 @@
 <h1 align="center">Welcome to Composite Modules 👋</h1>
 
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.4-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/badge/node-14.x-blue.svg" />
   <a href="#" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-no-red.svg" />
@@ -46,8 +46,8 @@ container.add(myModuleThree);
 void container.init()
 
 container.events.on('ready', (modules) => {
-    // Here we ensure that all of your modules have been loaded. and you can access them.
-    container.use('moduleOne').specificFunction();
+    // Here we ensure that all of your modules have been loaded and you can access them.
+    modules.collection.use('moduleTwo').anotherFunction()
 
     ...
 })

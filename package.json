@@ -1,6 +1,6 @@
 {
   "name": "composite-modules",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A module loader structure implemented using Composite Pattern.",
   "main": "build/index.js",
   "repository": "git@github.com:iagocalazans/composite-modules.git",
