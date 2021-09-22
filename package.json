@@ -1,13 +1,22 @@
 {
   "name": "composite-modules",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A module loader structure implemented using Composite Pattern.",
   "main": "build/index.js",
   "repository": "git@github.com:iagocalazans/composite-modules.git",
   "author": "Iago Calazans <iago.calazans@gmail.com>",
+  "keywords": [
+    "modules",
+    "composite",
+    "pattern",
+    "build",
+    "framework",
+    "base",
+    "simple"
+  ],
   "scripts": {
     "build": "tsc",
-    "prebuild": "rm -rf ./dist",
+    "prebuild": "rm -rf ./build",
     "eslint": "./node_modules/.bin/eslint --ext .ts --fix ./src/",
     "test:start": "node build/test/index.js"
   },
