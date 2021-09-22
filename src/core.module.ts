@@ -54,9 +54,24 @@ export abstract class Module {
   abstract isContainer (): boolean;
 
   /**
-   * Load the specified module. All classes that extend must have.
+   * Start chain like and traverses recursively through all its children to execute individuals load() functions.
    */
   abstract init (): Promise<void>;
+
+  /**
+   * Abort init() execution and starts killing all modules.
+   */
+  abstract kill (): Promise<void>;
+
+  /**
+   * Load the specified module. All classes that extend must have.
+   */
+  abstract load (): Promise<void>;
+
+  /**
+   * Unload the specified module. All classes that extend must have.
+   */
+  abstract unload (): Promise<void>;
 
   /**
    * Add a new module as a child of this container, be it simple or another container.

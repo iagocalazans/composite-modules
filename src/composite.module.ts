@@ -6,11 +6,11 @@ import { Module } from './core.module';
  * your application modules, to make them acessible by any
  * part of your project.
  *
- * @module Container
+ * @class CompositeModule
  * @author Iago Calazans <iago.calazans@gmail.com>
  * @extends Module
  */
-class Container extends Module {
+export abstract class CompositeModule extends Module {
   /**
    * Constructs a new container by setting the name parameter as its name property.
    *
@@ -72,46 +72,37 @@ class Container extends Module {
   }
 
   /**
+   * Loads module functionalities, must be implemented in each module.
+   * As you extended this Composite module, you must implement this method!
+   */
+  abstract load (): Promise<void>;
+
+  /**
+   * Unload module functionalities, must be implemented in each module.
+   * As you extended this Composite module, you must implement this method!
+   */
+  abstract unload (): Promise<void>;
+
+  /**
    * It goes through all the children of this container in the Chain of Responsibility style, carrying out the loading/start process in each of the adjacent modules.
    *
    * @return {Promise}
    */
   async init (): Promise<void> {
-    process.on(
-      'SIGINT', (_signal) => {
-        void this.beautyLogs.failed('[*] (Ctrl + C) shortkey received... Shutting down the system!');
-        void this.kill();
-      }
-    );
-
-    this._events.on(
-      'failed', () => {
-        void this.beautyLogs.system('[*] Failed event received. Starting abort process.');
-        void this.kill();
-      }
-    );
-
-    void console.clear();
-    void this.beautyLogs.system('[*] System is starting...');
-
     const queue = [];
     for (const child of this._children) {
       void queue.push(child.init());
     }
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const _module = await this.load();
       await Promise.all(queue);
-
-      void this.beautyLogs.system('[*] Modules load completed. The system loaded and started completely.');
-
-      /**
-       * This on event 'ready' emits Container it selfs.
-       */
-      void this._events.emit(
-        'ready', this
-      );
+      this.beautyLogs.success(`Module ${ this.constructor.name } successfully loaded.`);
     } catch (err) {
+      this.beautyLogs.failed(`Module ${ this.constructor.name } failed to load, aborting.`);
       void this._events.emit('failed');
+      throw new Error(`Module ${ this.constructor.name } failed to load, aborting.`);
     }
   }
 
@@ -128,23 +119,7 @@ class Container extends Module {
       this.remove(child);
     }
 
-    void this.beautyLogs.system('[*] Modules detached. The system is exiting now! Cya!');
-
-    return process.exit();
-  }
-
-  /**
-   * Loads module functionalities, must be implemented in each module.
-   */
-  async load (): Promise<void> {
-    throw new Error('Container should\'nt invoke load function.');
-  }
-
-  /**
-   * Unload module functionalities, must be implemented in each module.
-   */
-  async unload (): Promise<void> {
-    throw new Error('Container should\'nt invoke unload function.');
+    await this.unload();
   }
 
   /**
@@ -161,5 +136,3 @@ class Container extends Module {
     return this._children;
   }
 }
-
-export const ModulesContainer = new Container('container');

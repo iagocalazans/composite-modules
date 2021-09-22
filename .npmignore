@@ -1,6 +1,7 @@
 .eslintrc.json
 tsconfig.json
 src/**/*
+test/**/*
 .vscode/
 yarn.lock
 yarn-error.log
